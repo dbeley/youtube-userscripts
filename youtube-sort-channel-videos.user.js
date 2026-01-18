@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Channel - Sort Videos by Views
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Sort YouTube channel videos by view count (all loaded videos)
 // @author       dbeley
 // @match        https://www.youtube.com/*
@@ -52,7 +52,10 @@
                 
                 // Check if first span contains "views" - member-only videos don't show view counts
                 const firstSpanText = spans[0]?.textContent?.trim() || '';
-                const viewText = firstSpanText.toLowerCase().includes('view') ? firstSpanText : '';
+                const firstSpanLower = firstSpanText.toLowerCase();
+                const hasViewCount = firstSpanLower.includes('view') || firstSpanLower.includes('vue') || 
+                                     firstSpanLower.includes('visualizacion') || firstSpanLower.includes('aufruf');
+                const viewText = hasViewCount ? firstSpanText : '';
                 const views = parseViewCount(viewText);
                 
                 videos.push({
