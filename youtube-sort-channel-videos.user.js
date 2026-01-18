@@ -82,7 +82,17 @@
         }
         
         // Sort by view count (descending)
-        videos.sort((a, b) => b.views - a.views);
+        // Videos with 0 views (likely member-only or no view count) go to the end
+        videos.sort((a, b) => {
+            // If both have 0 views, maintain original order
+            if (a.views === 0 && b.views === 0) return 0;
+            // If a has 0 views, put it after b
+            if (a.views === 0) return 1;
+            // If b has 0 views, put it after a
+            if (b.views === 0) return -1;
+            // Otherwise, sort by view count descending
+            return b.views - a.views;
+        });
         
         console.log('[YT Sort by Views] Top 5 videos after sorting:');
         videos.slice(0, 5).forEach((v, i) => {
