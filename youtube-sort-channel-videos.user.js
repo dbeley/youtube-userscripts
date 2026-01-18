@@ -50,16 +50,18 @@
                 const spans = metadataLine.querySelectorAll('span');
                 if (spans.length < 1) return;
                 
-                const viewText = spans[0]?.textContent?.trim() || '';
+                // Check if first span contains "views" - member-only videos don't show view counts
+                const firstSpanText = spans[0]?.textContent?.trim() || '';
+                const viewText = firstSpanText.toLowerCase().includes('view') ? firstSpanText : '';
                 const views = parseViewCount(viewText);
                 
                 videos.push({
                     container: container,
                     views: views,
-                    viewText: viewText
+                    viewText: viewText || '(no views - member-only or hidden)'
                 });
                 
-                console.log(`[YT Sort by Views] Video ${index}: ${viewText} = ${views} views`);
+                console.log(`[YT Sort by Views] Video ${index}: ${viewText || '(no views)'} = ${views} views`);
             } catch (error) {
                 console.error('[YT Sort by Views] Error parsing video:', error);
             }
