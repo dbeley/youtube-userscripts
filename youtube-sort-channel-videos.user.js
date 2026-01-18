@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Channel - Sort Videos by Views
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Sort YouTube channel videos by view count (all loaded videos)
 // @author       dbeley
 // @match        https://www.youtube.com/*
@@ -187,9 +187,11 @@
             return false;
         }
         
-        // Check if button already exists
-        if (document.querySelector('#sort-by-views-btn')) {
-            return true;
+        // Remove existing button if it exists (for SPA navigation)
+        const existingButton = document.querySelector('#sort-by-views-btn');
+        if (existingButton) {
+            console.log('[YT Sort by Views] Removing existing button');
+            existingButton.remove();
         }
         
         const button = document.createElement('button');
@@ -290,7 +292,14 @@
         const url = location.href;
         if (url !== lastUrl) {
             lastUrl = url;
-            setTimeout(init, 1000);
+            console.log('[YT Sort by Views] URL changed to:', url);
+            // Remove old button immediately on navigation
+            const existingButton = document.querySelector('#sort-by-views-btn');
+            if (existingButton) {
+                existingButton.remove();
+            }
+            // Re-initialize after a short delay
+            setTimeout(init, 500);
         }
     }).observe(document, { subtree: true, childList: true });
 
