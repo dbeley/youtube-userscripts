@@ -192,6 +192,7 @@
             font-family: "Roboto", sans-serif;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         `;
         
         button.addEventListener('mouseenter', () => {
@@ -213,7 +214,20 @@
             }, 100);
         });
         
-        chipBar.parentElement.appendChild(button);
+        // Find the container div that holds left-arrow, scroll-container, and right-arrow
+        // Insert the button after scroll-container but before right-arrow
+        const scrollContainer = chipBar.parentElement; // This is #scroll-container
+        const containerDiv = scrollContainer.parentElement; // This is #container
+        const rightArrow = containerDiv.querySelector('#right-arrow');
+        
+        if (rightArrow) {
+            // Insert button before the right arrow
+            containerDiv.insertBefore(button, rightArrow);
+        } else {
+            // Fallback: append to container
+            containerDiv.appendChild(button);
+        }
+        
         console.log('[YT Sort by Views] Button created');
         return true;
     }
