@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         YouTube Channel - Sort Videos by Views
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Sort YouTube channel videos by view count (all loaded videos)
 // @author       dbeley
-// @match        https://www.youtube.com/*
+// @match        https://www.youtube.com/*/videos
 // @grant        none
 // @run-at       document-idle
 // ==/UserScript==
